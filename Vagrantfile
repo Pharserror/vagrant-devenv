@@ -7,7 +7,7 @@
 # you're doing.
 Vagrant.configure("2") do |config|
   # Specify box to use
-  config.vm.box = "pharserror/devenv"
+  config.vm.box = "centos/7"
 
   # Configure box updates
   # config.vm.box_check_update = false
@@ -43,14 +43,16 @@ Vagrant.configure("2") do |config|
   # end
 
   # Configure any provisioning
+  # NOTE: Might be able to use some env vars to make this generic
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    # apt-get install -y apache2
-    apt-get install emacs git nodejs tmux zsh
-    chsh -s $(which zsh)
-    git clone https://github.com/Pharserror/dotfiles ~/dotfiles
-    /bin/zsh ~/dotfiles/install.sh
-    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-    source ~/.zshrc
+    sudo yum update
+    sudo yum install -y emacs git nodejs tmux zsh
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
+    mkdir -p /home/vagrant/dotfiles
+    mkdir -p /home/vagrant/.emacs.d
+    git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
+    /bin/bash /home/vagrant/dotfiles/install.sh
+    git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
+    source /home/vagrant/.zshrc
   SHELL
 end
