@@ -45,14 +45,25 @@ Vagrant.configure("2") do |config|
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
   config.vm.provision "shell", inline: <<-SHELL
+    # setup directories
+    sudo mkdir -p /home/vagrant/dotfiles
+    sudo mkdir -p /home/vagrant/.emacs.d
+    # install packages
     sudo yum update
-    sudo yum install -y emacs git nodejs tmux zsh
-    \curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
-    mkdir -p /home/vagrant/dotfiles
-    mkdir -p /home/vagrant/.emacs.d
+    sudo yum groupinstall "Development Tools"
+    sudo yum install -y git nodejs tmux zsh curl tar gzip wget
+    # build emacs - NOTE: use env var for version
+    cd /home/vagrant
+    wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
+    tar -xf emacs-25.2.tar.gz
+    cd emacs-25.2
+    ./configure
+    make
+    cd /home/vagrant
+    curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
-    /bin/bash /home/vagrant/dotfiles/install.sh
+    cd /home/vagrant/dotfiles
+    ./install.sh
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
-    source /home/vagrant/.zshrc
   SHELL
 end
