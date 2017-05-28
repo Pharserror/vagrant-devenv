@@ -55,29 +55,23 @@ Vagrant.configure("2") do |config|
     sudo yum install -y git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
                         luajit-devel ctags python python-devel python3 python3-devel \
                         tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
-                        perl-ExtUtils-CBuilder perl-ExtUtils-Embed
+                        perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
     # symlink xsubpp (perl) from /usr/bin to the perl dir
     # sudo ln -s /usr/bin/xsubpp /usr/share/perl5/ExtUtils/xsubpp
     # build emacs - NOTE: use env var for version
-    cd /home/vagrant
     wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
     tar -xf emacs-25.2.tar.gz
-    cd emacs-25.2
-    ./configure
-    make
-    cd /home/vagrant
+    sh /home/vagrant/emacs-25.2/configure
+    sh /home/vagrant/emacs-25.2/make
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     sudo yum install -y ruby-devel
     git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
-    cd /home/vagrant/dotfiles
-    ./install.sh
+    sh /home/vagrant/dotfiles/install.sh
     # Install Spacemacs
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
     # Install Vim8
-    cd /home/vagrant
-    git clone https://github.com/vim/vim.git
-    cd /home/vagrant/vim
-    ./configure
+    git clone https://github.com/vim/vim.git /home/vagrant/vim
+    sh /home/vagrant/vim/configure
     make VIMRUNTIMEDIR=/usr/share/vim/vim80
 	# Install Spacevim
 	curl -sLf https://spacevim.org/install.sh | bash
