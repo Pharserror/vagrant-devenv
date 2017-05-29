@@ -61,19 +61,22 @@ Vagrant.configure("2") do |config|
     # build emacs - NOTE: use env var for version
     wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
     tar -xf emacs-25.2.tar.gz
-    sh /home/vagrant/emacs-25.2/configure
-    sh /home/vagrant/emacs-25.2/make
+    cd /home/vagrant/emacs-25.2/
+    sudo sh /home/vagrant/emacs-25.2/configure
+    sudo sh /home/vagrant/emacs-25.2/make
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     sudo yum install -y ruby-devel
     git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
-    sh /home/vagrant/dotfiles/install.sh
+    sudo sh /home/vagrant/dotfiles/install.sh
     # Install Spacemacs
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
     # Install Vim8
     git clone https://github.com/vim/vim.git /home/vagrant/vim
-    sh /home/vagrant/vim/configure
-    make VIMRUNTIMEDIR=/usr/share/vim/vim80
+    cd /home/vagrant/vim/
+    sudo sh /home/vagrant/vim/configure
+    sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
 	# Install Spacevim
-	curl -sLf https://spacevim.org/install.sh | bash
+    cd /home/vagrant
+	sudo curl -sLf https://spacevim.org/install.sh | bash
   SHELL
 end
