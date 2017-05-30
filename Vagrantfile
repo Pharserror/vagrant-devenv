@@ -62,8 +62,9 @@ Vagrant.configure("2") do |config|
     wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
     tar -xf emacs-25.2.tar.gz
     cd /home/vagrant/emacs-25.2/
-    sudo sh /home/vagrant/emacs-25.2/configure
-    sudo sh /home/vagrant/emacs-25.2/make
+    sudo ./configure
+    sudo make
+    sudo make install
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     sudo yum install -y ruby-devel
     git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
@@ -73,8 +74,9 @@ Vagrant.configure("2") do |config|
     # Install Vim8
     git clone https://github.com/vim/vim.git /home/vagrant/vim
     cd /home/vagrant/vim/
-    sudo sh /home/vagrant/vim/configure
+    sudo ./configure
     sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
+    sudo make install
 	# Install Spacevim
     cd /home/vagrant
 	sudo curl -sLf https://spacevim.org/install.sh | bash
