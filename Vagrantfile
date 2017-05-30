@@ -74,6 +74,7 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
     sudo chown -R vagrant /home/vagrant/.emacs.d
     mkdir /home/vagrant/.emacs.d/.cache
+    sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
     # Install Vim8
     git clone https://github.com/vim/vim.git /home/vagrant/vim
     cd /home/vagrant/vim/
