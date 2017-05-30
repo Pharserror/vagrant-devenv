@@ -47,8 +47,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     su - vagrant
     # setup directories
-    sudo mkdir -p /home/vagrant/dotfiles
-    sudo mkdir -p /home/vagrant/.emacs.d
+    mkdir -p /home/vagrant/dotfiles
+    mkdir -p /home/vagrant/.emacs.d
     # install packages
     sudo yum update
     sudo yum groupinstall -y "Development Tools"
@@ -68,9 +68,12 @@ Vagrant.configure("2") do |config|
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     sudo yum install -y ruby-devel
     git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
-    sudo sh /home/vagrant/dotfiles/install.sh
+    sudo chown -R vagrant ~/dotfiles
+    sh /home/vagrant/dotfiles/install.sh
     # Install Spacemacs
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
+    sudo chown -R vagrant ~/.emacs.d
+    mkdir ~/.emacs.d/.cache
     # Install Vim8
     git clone https://github.com/vim/vim.git /home/vagrant/vim
     cd /home/vagrant/vim/
