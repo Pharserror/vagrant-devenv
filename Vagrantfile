@@ -83,6 +83,7 @@ Vagrant.configure("2") do |config|
     sudo make install
     # Install NeoVim
     sudo yum -y install epel-release
+    mkdir -p /etc/yum.repos.d/dperson-neovim
     curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
     sudo yum -y install neovim
 	# Install Spacevim
