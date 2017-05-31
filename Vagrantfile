@@ -44,6 +44,7 @@ Vagrant.configure("2") do |config|
 
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
+  config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/etc/yum.repos.d/dnf-stack-el7.repo"
   config.vm.provision "shell", inline: <<-SHELL
     su - vagrant
     # setup directories
@@ -82,10 +83,17 @@ Vagrant.configure("2") do |config|
     sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
     sudo make install
     # Install NeoVim
+    # First we have to get DNF and COPR
+    wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    sudo rpm -Uvh epel-release-latest-7*.rpm
+    sudo yum install -y dnf
     sudo yum -y install epel-release
-    mkdir -p /etc/yum.repos.d/dperson-neovim
-    curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
-    sudo yum -y install neovim
+    # mkdir -p /etc/yum.repos.d/dperson-neovim
+# curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
+# sudo yum -y install neovim
+    # Now we can get neovim
+    sudo dnf copr enable dperson/neovim;
+    sudo dnf install neovim
 	# Install Spacevim
     cd /home/vagrant
 	sudo curl -sLf https://spacevim.org/install.sh | bash
