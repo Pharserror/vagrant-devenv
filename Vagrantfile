@@ -81,6 +81,10 @@ Vagrant.configure("2") do |config|
     sudo ./configure
     sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
     sudo make install
+    # Install NeoVim
+    sudo yum -y install epel-release
+    curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
+    sudo yum -y install neovim
 	# Install Spacevim
     cd /home/vagrant
 	sudo curl -sLf https://spacevim.org/install.sh | bash
