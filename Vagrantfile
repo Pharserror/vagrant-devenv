@@ -91,14 +91,22 @@ Vagrant.configure("2") do |config|
     sudo mv /home/vagrant/dnf-stack-el7.repo /etc/yum.repos.d/dnf-stack-el7.repo
     sudo yum install -y epel-release
     sudo yum install -y dnf
+    sudo yum install -y dnf-plugins-core
     # mkdir -p /etc/yum.repos.d/dperson-neovim
 # curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
 # sudo yum -y install neovim
     # Now we can get neovim
     sudo dnf copr enable dperson/neovim;
-    sudo dnf install neovim
+# sudo dnf install neovim
+    sudo yum install -y neovim-0.2.0
+# pip install neovim
 	# Install Spacevim
     cd /home/vagrant
-	sudo curl -sLf https://spacevim.org/install.sh | bash
+	sudo curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
+    sudo chown vagrant install.sh
+    sudo chmod +x install.sh
+    sh /home/vagrant/install.sh
+    # Install irssi
+    sudo yum install -y irssi
   SHELL
 end
