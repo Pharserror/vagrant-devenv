@@ -44,18 +44,7 @@ Vagrant.configure("2") do |config|
 
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
-  # config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/etc/yum.repos.d/dnf-stack-el7.repo"
-  stack = "
-    [dnf-stack-el7]
-    name=Copr repo for dnf-stack-el7 owned by @rpm-software-management
-    baseurl=https://copr-be.cloud.fedoraproject.org/results/@rpm-software-management/dnf-stack-el7/epel-7-\$basearch/
-    skip_if_unavailable=True
-    gpgcheck=1
-    gpgkey=https://copr-be.cloud.fedoraproject.org/results/@rpm-software-management/dnf-stack-el7/pubkey.gpg
-    enabled=1
-    enabled_metadata=1
-  "
-
+  config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
   config.vm.provision "shell", inline: <<-SHELL
     su - vagrant
     # setup directories
@@ -71,6 +60,7 @@ Vagrant.configure("2") do |config|
     # symlink xsubpp (perl) from /usr/bin to the perl dir
     # sudo ln -s /usr/bin/xsubpp /usr/share/perl5/ExtUtils/xsubpp
     # build emacs - NOTE: use env var for version
+    cd /home/vagrant
     wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
     tar -xf emacs-25.2.tar.gz
     cd /home/vagrant/emacs-25.2/
@@ -95,11 +85,12 @@ Vagrant.configure("2") do |config|
     sudo make install
     # Install NeoVim
     # First we have to get DNF and COPR
+    cd /home/vagrant
     wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     sudo rpm -Uvh epel-release-latest-7*.rpm
-    sudo cat #{stack} > /etc/yum.repos.d/dnf-stack-el7.repo
+    sudo mv /home/vagrant/dnf-stack-el7.repo /etc/yum.repos.d/dnf-stack-el7.repo
+    sudo yum install -y epel-release
     sudo yum install -y dnf
-    sudo yum -y install epel-release
     # mkdir -p /etc/yum.repos.d/dperson-neovim
 # curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
 # sudo yum -y install neovim
