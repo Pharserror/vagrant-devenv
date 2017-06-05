@@ -102,11 +102,16 @@ Vagrant.configure("2") do |config|
 # pip install neovim
 	# Install Spacevim
     cd /home/vagrant
+    mkdir /home/vagrant/.config
+    sudo chown -R vagrant /home/vagrant/.config
 	sudo curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
     sudo chown vagrant install.sh
     sudo chmod +x install.sh
-    sh /home/vagrant/install.sh
+    runuser -l vagrant -c 'sh /home/vagrant/install.sh'
     # Install irssi
     sudo yum install -y irssi
+    # Install Ripgrep
+    sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
+    sudo yum install -y ripgrep
   SHELL
 end
