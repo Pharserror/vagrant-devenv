@@ -46,19 +46,21 @@ Vagrant.configure("2") do |config|
   # NOTE: Might be able to use some env vars to make this generic
   config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
   config.vm.provision "shell", inline: <<-SHELL
+    # Use Vagrant user to do stuff
     su - vagrant
+
     # setup directories
     mkdir -p /home/vagrant/dotfiles
     mkdir -p /home/vagrant/.emacs.d
-    # install packages
+
+    # install base packages
     sudo yum update
     sudo yum groupinstall -y "Development Tools"
     sudo yum install -y git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
                         luajit-devel ctags python python-devel python3 python3-devel \
                         tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
                         perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
-    # symlink xsubpp (perl) from /usr/bin to the perl dir
-    # sudo ln -s /usr/bin/xsubpp /usr/share/perl5/ExtUtils/xsubpp
+
     # build emacs - NOTE: use env var for version
     cd /home/vagrant
     wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
@@ -67,22 +69,29 @@ Vagrant.configure("2") do |config|
     sudo ./configure
     sudo make
     sudo make install
+
+    # Install RVM
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     sudo yum install -y ruby-devel
+
+    # Grab dotfiles
     git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
     sudo chown -R vagrant /home/vagrant/dotfiles
     sh /home/vagrant/dotfiles/install.sh
+
     # Install Spacemacs
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
     sudo chown -R vagrant /home/vagrant/.emacs.d
     mkdir /home/vagrant/.emacs.d/.cache
     sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
+
     # Install Vim8
     git clone https://github.com/vim/vim.git /home/vagrant/vim
     cd /home/vagrant/vim/
     sudo ./configure
     sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
     sudo make install
+
     # Install NeoVim
     # First we have to get DNF and COPR
     cd /home/vagrant
@@ -92,26 +101,35 @@ Vagrant.configure("2") do |config|
     sudo yum install -y epel-release
     sudo yum install -y dnf
     sudo yum install -y dnf-plugins-core
-    # mkdir -p /etc/yum.repos.d/dperson-neovim
-# curl -o /etc/yum.repos.d/dperson-neovim/epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
-# sudo yum -y install neovim
     # Now we can get neovim
     sudo dnf copr enable dperson/neovim;
-# sudo dnf install neovim
+    # sudo dnf install neovim
     sudo yum install -y neovim-0.2.0
-# pip install neovim
-	# Install Spacevim
+    # pip install neovim
+
+    # Install Spacevim
     cd /home/vagrant
     mkdir /home/vagrant/.config
     sudo chown -R vagrant /home/vagrant/.config
-	sudo curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
+    sudo curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
     sudo chown vagrant install.sh
     sudo chmod +x install.sh
     runuser -l vagrant -c 'sh /home/vagrant/install.sh'
+
     # Install irssi
     sudo yum install -y irssi
+
     # Install Ripgrep
     sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
     sudo yum install -y ripgrep
+
+    # Clone public repos
+    # The idea here is to download a master gist with the hashes and directories
+    # of all of the app configs we need and put them in the right places and
+    # also clone any repos we need too
+    # mkdir /home/vagrant/.gistconfigs
+    # cd /home/vagrant/.gistconfigs
+    # wget https://gist.githubusercontent.com/${GITHUBUSER}/${MASTERCONFHASH1}/raw/${MASTERCONFHASH2}/${MASTERGISTNAME}
+    # cat $MASTERGISTNAME | while read line ; do ; done
   SHELL
 end
