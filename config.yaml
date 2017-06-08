@@ -1,0 +1,7 @@
+---
+repos:
+  - destination: '/home/vagrant/source'
+    pass: 'test'
+    url: 'https://user@repo.domain/user/name.extension'
+    user: 'username'
+...
