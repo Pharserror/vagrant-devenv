@@ -2,6 +2,7 @@
 repos:
   - destination: '/home/vagrant/source'
     pass: 'test'
+    type: 'git'
     url: 'https://user@repo.domain/user/name.extension'
     user: 'username'
 ...
