@@ -45,6 +45,8 @@ Vagrant.configure("2") do |config|
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
   config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
+  config.vm.provision "file", source: "./config.yaml", destination: "/home/vagrant/config.yaml"
+  config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
   config.vm.provision "shell", inline: <<-SHELL
     # Use Vagrant user to do stuff
     su - vagrant
@@ -123,13 +125,9 @@ Vagrant.configure("2") do |config|
     sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
     sudo yum install -y ripgrep
 
-    # Clone public repos
-    # The idea here is to download a master gist with the hashes and directories
-    # of all of the app configs we need and put them in the right places and
-    # also clone any repos we need too
-    # mkdir /home/vagrant/.gistconfigs
-    # cd /home/vagrant/.gistconfigs
-    # wget https://gist.githubusercontent.com/${GITHUBUSER}/${MASTERCONFHASH1}/raw/${MASTERCONFHASH2}/${MASTERGISTNAME}
-    # cat $MASTERGISTNAME | while read line ; do ; done
+    # Setup stuff from the config
+    mkdir /home/vagrant/source
+    sudo chown -R vagrant /home/vagrant/source
+    ruby /home/vagrant/setup.rb
   SHELL
 end
