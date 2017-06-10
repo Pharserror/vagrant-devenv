@@ -1,8 +1,9 @@
 ---
 repos:
   - destination: '/home/vagrant/source'
+    domain: 'github.com/bitbucket.org'
+    name: 'my_project'
     pass: 'test'
     type: 'git'
-    url: 'https://user@repo.domain/user/name.extension'
     user: 'username'
 ...
