@@ -74,6 +74,7 @@ Vagrant.configure("2") do |config|
 
     # Install RVM
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
+    source $rvm_path/scripts/rvm
     sudo yum install -y ruby-devel
 
     # Grab dotfiles
@@ -107,10 +108,14 @@ Vagrant.configure("2") do |config|
     sudo dnf copr enable dperson/neovim;
     # sudo dnf install neovim
     sudo yum install -y neovim-0.2.0
-    # pip install neovim
+
+    # Get Python pip so we can install the nvim module
+    cd /home/vagrant
+    wget https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+    pip install neovim
 
     # Install Spacevim
-    cd /home/vagrant
     mkdir /home/vagrant/.config
     sudo chown -R vagrant /home/vagrant/.config
     sudo curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh

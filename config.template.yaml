@@ -4,6 +4,7 @@ repos:
     domain: 'github.com/bitbucket.org'
     name: 'my_project'
     pass: 'test'
+    postinstall: 'generic_rails_app_setup.sh'
     type: 'git'
     user: 'username'
 ...
