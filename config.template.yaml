@@ -5,6 +5,10 @@ repos:
     name: 'my_project'
     pass: 'test'
     postinstall: 'generic_rails_app_setup.sh'
+    postinstall_args:
+      - 'name_of_gemset_or_something'
+      - 'db_pass_or_something'
+      - 'etc.'
     type: 'git'
     user: 'username'
 ...

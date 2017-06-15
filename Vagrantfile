@@ -73,12 +73,13 @@ Vagrant.configure("2") do |config|
     sudo make install
 
     # Install RVM
+    command curl -sSL https://rvm.io/mpapis.asc | gpg2--import -
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
-    source $rvm_path/scripts/rvm
+    source /home/vagrant/.rvm/scripts/rvm
     sudo yum install -y ruby-devel
 
     # Grab dotfiles
-    git clone https://github.com/Pharserror/dotfiles /home/vagrant/dotfiles
+    git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
     sudo chown -R vagrant /home/vagrant/dotfiles
     sh /home/vagrant/dotfiles/install.sh
 
