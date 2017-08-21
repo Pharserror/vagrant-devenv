@@ -7,7 +7,8 @@
 # you're doing.
 Vagrant.configure("2") do |config|
   # Specify box to use
-  config.vm.box = "centos/7"
+  # config.vm.box = "centos/7"
+  config.vm.box = "debian/9"
 
   # Configure box updates
   # config.vm.box_check_update = false
@@ -56,9 +57,14 @@ Vagrant.configure("2") do |config|
     mkdir -p /home/vagrant/.emacs.d
 
     # install base packages
-    sudo yum update
-    sudo yum groupinstall -y "Development Tools"
-    sudo yum install -y git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
+    # sudo yum update
+    # sudo yum groupinstall -y "Development Tools"
+    # sudo yum install -y git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
+    #                     luajit-devel ctags python python-devel python3 python3-devel \
+    #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
+    #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
+    sudo apt-get update
+    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
                         luajit-devel ctags python python-devel python3 python3-devel \
                         tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
                         perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
