@@ -8,7 +8,7 @@
 Vagrant.configure("2") do |config|
   # Specify box to use
   # config.vm.box = "centos/7"
-  config.vm.box = "debian/9"
+  config.vm.box = "debian/jessie64"
 
   # Configure box updates
   # config.vm.box_check_update = false
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
 
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
-  config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
+  # config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
   config.vm.provision "file", source: "./config.yaml", destination: "/home/vagrant/config.yaml"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
   config.vm.provision "shell", inline: <<-SHELL
@@ -64,10 +64,8 @@ Vagrant.configure("2") do |config|
     #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
     #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
     sudo apt-get update
-    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
-                        luajit-devel ctags python python-devel python3 python3-devel \
-                        tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
-                        perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
+    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar gzip wget \
+                            ctags python python3 perl neovim
 
     # build emacs - NOTE: use env var for version
     cd /home/vagrant
@@ -79,10 +77,11 @@ Vagrant.configure("2") do |config|
     sudo make install
 
     # Install RVM
-    command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+    # command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+    curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
     source /home/vagrant/.rvm/scripts/rvm
-    sudo yum install -y ruby-devel
+    # sudo yum install -y ruby-devel
 
     # Grab dotfiles
     git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
@@ -105,37 +104,45 @@ Vagrant.configure("2") do |config|
     # Install NeoVim
     # First we have to get DNF and COPR
     cd /home/vagrant
-    wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    sudo rpm -Uvh epel-release-latest-7*.rpm
-    sudo mv /home/vagrant/dnf-stack-el7.repo /etc/yum.repos.d/dnf-stack-el7.repo
-    sudo yum install -y epel-release
-    sudo yum install -y dnf
-    sudo yum install -y dnf-plugins-core
+    # wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    # sudo rpm -Uvh epel-release-latest-7*.rpm
+    # sudo mv /home/vagrant/dnf-stack-el7.repo /etc/yum.repos.d/dnf-stack-el7.repo
+    # sudo yum install -y epel-release
+    # sudo yum install -y dnf
+    # sudo yum install -y dnf-plugins-core
+    # sudo apt-get install -y epel-release
+    # sudo apt-get install -y dnf
+    # sudo apt-get install -y dnf-plugins-core
     # Now we can get neovim
-    sudo dnf copr enable dperson/neovim;
+    # sudo dnf copr enable dperson/neovim;
     # sudo dnf install neovim
-    sudo yum install -y neovim-0.2.0
+    # sudo yum install -y neovim-0.2.0
 
     # Get Python pip so we can install the nvim module
     cd /home/vagrant
     wget https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
-    pip install neovim
+    # pip install neovim
 
     # Install Spacevim
     mkdir /home/vagrant/.config
     sudo chown -R vagrant /home/vagrant/.config
-    sudo curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
+    curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
     sudo chown vagrant install.sh
     sudo chmod +x install.sh
     runuser -l vagrant -c 'sh /home/vagrant/install.sh'
 
     # Install irssi
-    sudo yum install -y irssi
+    # sudo yum install -y irssi
+    sudo apt-get install -y irssi
 
     # Install Ripgrep
-    sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
-    sudo yum install -y ripgrep
+    # sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
+    # sudo yum install -y ripgrep
+    curl https://sh.rustup.rs -sSf | sh
+    source $HOME/.cargo/env
+    cargo install ripgrep
+    cd /home/vagrant
 
     # Setup stuff from the config
     mkdir /home/vagrant/source
