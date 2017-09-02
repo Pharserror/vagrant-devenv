@@ -64,8 +64,8 @@ Vagrant.configure("2") do |config|
     #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
     #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
     sudo apt-get update
-    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar gzip wget \
-                            ctags python python3 perl neovim
+    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar wget \
+                            python python3 perl neovim gnupg2
 
     # build emacs - NOTE: use env var for version
     cd /home/vagrant
