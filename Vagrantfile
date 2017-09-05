@@ -68,13 +68,13 @@ Vagrant.configure("2") do |config|
                                             python python3 perl gnupg2
 
     # build emacs - NOTE: use env var for version
-    # cd /home/vagrant
-    # wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
-    # tar -xf emacs-25.2.tar.gz
-    # cd /home/vagrant/emacs-25.2/
-    # sudo ./configure --with-xwidgets
-    # sudo make
-    # sudo make install
+    cd /home/vagrant
+    wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
+    tar -xf emacs-25.2.tar.gz
+    cd /home/vagrant/emacs-25.2/
+    sudo ./configure --with-xwidgets
+    sudo make
+    sudo make install
 
     # Install RVM
     # command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
