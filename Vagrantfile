@@ -65,41 +65,43 @@ Vagrant.configure("2") do |config|
     #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
     sudo apt-get update
     sudo apt-get install -y build-essential git nodejs tmux zsh curl tar wget \
-                                            python python3 perl gnupg2
+                            python python3 perl gnupg2 gtk+3.0 libwebkit2gtk-3.0 webkitgtk+2 \
+                            webkitgtk+3.0 libwebkitgtk-dev libwebkitgtk-3.0-dev
 
     # build emacs - NOTE: use env var for version
     cd /home/vagrant
     wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
     tar -xf emacs-25.2.tar.gz
     cd /home/vagrant/emacs-25.2/
-    sudo ./configure --with-xwidgets
+    sudo apt-get build-dep -y emacs25
+    sudo ./configure --with-cairo --with-xwidgets --with-x-toolkit=gtk3
     sudo make
     sudo make install
 
     # Install RVM
-    # command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    # curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    # curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
-    # source /home/vagrant/.rvm/scripts/rvm
+    command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+    curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+    curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
+    source /home/vagrant/.rvm/scripts/rvm
     # sudo yum install -y ruby-devel
 
     # Grab dotfiles
-    # git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
-    # sudo chown -R vagrant /home/vagrant/dotfiles
-    # sh /home/vagrant/dotfiles/install.sh
+    git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
+    sudo chown -R vagrant /home/vagrant/dotfiles
+    sh /home/vagrant/dotfiles/install.sh
 
     # Install Spacemacs
-    # git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
-    # sudo chown -R vagrant /home/vagrant/.emacs.d
-    # mkdir /home/vagrant/.emacs.d/.cache
-    # sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
+    git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
+    sudo chown -R vagrant /home/vagrant/.emacs.d
+    mkdir /home/vagrant/.emacs.d/.cache
+    sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
 
     # Install Vim8
-    # git clone https://github.com/vim/vim.git /home/vagrant/vim
-    # cd /home/vagrant/vim/
-    # sudo ./configure
-    # sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
-    # sudo make install
+    git clone https://github.com/vim/vim.git /home/vagrant/vim
+    cd /home/vagrant/vim/
+    sudo ./configure
+    sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
+    sudo make install
 
     # Install NeoVim
     # First we have to get DNF and COPR
@@ -134,19 +136,21 @@ Vagrant.configure("2") do |config|
 
     # Install irssi
     # sudo yum install -y irssi
-    # sudo apt-get install -y irssi
+    sudo apt-get install -y irssi
 
     # Install Ripgrep
     # sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
     # sudo yum install -y ripgrep
-    # curl https://sh.rustup.rs -sSf | sh
-    # source $HOME/.cargo/env
-    # cargo install ripgrep
-    # cd /home/vagrant
+    curl https://sh.rustup.rs -sSf > /home/vagrant/installrust.sh
+    sudo chmod +x /home/vagrant/installrust.sh
+    yes | /home/vagrant/installrust.sh
+    source $HOME/.cargo/env
+    cargo install ripgrep
+    cd /home/vagrant
 
     # Setup stuff from the config
-    # mkdir /home/vagrant/source
-    # sudo chown -R vagrant /home/vagrant/source
-    # ruby /home/vagrant/setup.rb
+    mkdir /home/vagrant/source
+    sudo chown -R vagrant /home/vagrant/source
+    ruby /home/vagrant/setup.rb
   SHELL
 end
