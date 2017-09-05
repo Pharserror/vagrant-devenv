@@ -8,7 +8,7 @@
 Vagrant.configure("2") do |config|
   # Specify box to use
   # config.vm.box = "centos/7"
-  config.vm.box = "debian/jessie64"
+  config.vm.box = "debian/stretch64"
 
   # Configure box updates
   # config.vm.box_check_update = false
@@ -64,8 +64,8 @@ Vagrant.configure("2") do |config|
     #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
     #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
     sudo apt-get update
-    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar wget # \
-                            # python python3 perl neovim gnupg2
+    sudo apt-get install -y build-essential git nodejs tmux zsh curl tar wget \
+                                            python python3 perl gnupg2
 
     # build emacs - NOTE: use env var for version
     # cd /home/vagrant
@@ -119,10 +119,10 @@ Vagrant.configure("2") do |config|
     # sudo yum install -y neovim-0.2.0
 
     # Get Python pip so we can install the nvim module
-    # cd /home/vagrant
-    # wget https://bootstrap.pypa.io/get-pip.py
-    # python get-pip.py
-    # pip install neovim
+    cd /home/vagrant
+    wget https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+    pip install neovim
 
     # Install Spacevim
     # mkdir /home/vagrant/.config
