@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
   config.vm.provision "shell", inline: <<-SHELL
     # Use Vagrant user to do stuff
-    su - vagrant
+    # su - vagrant
 
     # setup directories
     mkdir -p /home/vagrant/dotfiles
@@ -80,9 +80,10 @@ Vagrant.configure("2") do |config|
 
     # Install RVM
     command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    curl -sSL https://get.rvm.io | bash -s stable --ruby=2.4.1
+    # curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+    curl -sSL https://get.rvm.io | bash -s stable --ruby=2.3.3
     source /home/vagrant/.rvm/scripts/rvm
+    rvm install 2.3.4
     # sudo yum install -y ruby-devel
 
     # Grab dotfiles
@@ -143,7 +144,7 @@ Vagrant.configure("2") do |config|
     # sudo yum install -y ripgrep
     curl https://sh.rustup.rs -sSf > /home/vagrant/installrust.sh
     sudo chmod +x /home/vagrant/installrust.sh
-    yes | /home/vagrant/installrust.sh
+    /home/vagrant/installrust.sh -y
     source $HOME/.cargo/env
     cargo install ripgrep
     cd /home/vagrant
