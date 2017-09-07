@@ -80,16 +80,14 @@ Vagrant.configure("2") do |config|
 
     # Install RVM
     command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    # curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
     curl -sSL https://get.rvm.io | bash -s stable --ruby=2.3.3
-    source /home/vagrant/.rvm/scripts/rvm
-    rvm install 2.3.4
+    source $HOME/.rvm/scripts/rvm
     # sudo yum install -y ruby-devel
 
     # Grab dotfiles
-    git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
-    sudo chown -R vagrant /home/vagrant/dotfiles
-    sh /home/vagrant/dotfiles/install.sh
+    # git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
+    # sudo chown -R vagrant /home/vagrant/dotfiles
+    # sh /home/vagrant/dotfiles/install.sh
 
     # Install Spacemacs
     git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
@@ -123,9 +121,9 @@ Vagrant.configure("2") do |config|
 
     # Get Python pip so we can install the nvim module
     cd /home/vagrant
-    wget https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py
-    pip install neovim
+    # wget https://bootstrap.pypa.io/get-pip.py
+    # python get-pip.py
+    # pip install neovim
 
     # Install Spacevim
     # mkdir /home/vagrant/.config
@@ -144,7 +142,7 @@ Vagrant.configure("2") do |config|
     # sudo yum install -y ripgrep
     curl https://sh.rustup.rs -sSf > /home/vagrant/installrust.sh
     sudo chmod +x /home/vagrant/installrust.sh
-    /home/vagrant/installrust.sh -y
+    ./installrust.sh -y
     source $HOME/.cargo/env
     cargo install ripgrep
     cd /home/vagrant
