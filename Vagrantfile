@@ -48,6 +48,8 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
   config.vm.provision "file", source: "./config.yaml", destination: "/home/vagrant/config.yaml"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
+  config.vm.provision :shell, path: "install-rvm.sh", args: "stable", privileged: false
+  config.vm.provision :shell, path: "install-ruby.sh", args: "2.3.4", privileged: false
   config.vm.provision "shell", inline: <<-SHELL
     # Use Vagrant user to do stuff
     # su - vagrant
@@ -62,7 +64,7 @@ Vagrant.configure("2") do |config|
     # sudo yum install -y git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
     #                     luajit-devel ctags python python-devel python3 python3-devel \
     #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
-    #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel
+    #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel ruby-devel
     sudo apt-get update
     sudo apt-get install -y build-essential git nodejs tmux zsh curl tar wget \
                             python python3 perl gnupg2 gtk+3.0 libwebkit2gtk-3.0 webkitgtk+2 \
@@ -77,12 +79,6 @@ Vagrant.configure("2") do |config|
     sudo ./configure --with-cairo --with-xwidgets --with-x-toolkit=gtk3
     sudo make
     sudo make install
-
-    # Install RVM
-    command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-    curl -sSL https://get.rvm.io | bash -s stable --ruby=2.3.3
-    source $HOME/.rvm/scripts/rvm
-    # sudo yum install -y ruby-devel
 
     # Grab dotfiles
     # git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
