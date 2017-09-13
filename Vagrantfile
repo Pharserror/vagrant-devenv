@@ -48,8 +48,6 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
   config.vm.provision "file", source: "./config.yaml", destination: "/home/vagrant/config.yaml"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
-  config.vm.provision :shell, path: "install-rvm.sh", args: "stable", privileged: false
-  config.vm.provision :shell, path: "install-ruby.sh", args: "2.3.4", privileged: false
   config.vm.provision "shell", inline: <<-SHELL
     # Use Vagrant user to do stuff
     # su - vagrant
@@ -132,7 +130,10 @@ Vagrant.configure("2") do |config|
     # Install irssi
     # sudo yum install -y irssi
     sudo apt-get install -y irssi
-
+  SHELL
+  config.vm.provision :shell, path: "./install-rvm.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./install-ruby.sh", args: "2.3.4",  privileged: false
+  config.vm.provision "shell", inline: <<-SHELL
     # Install Ripgrep
     # sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
     # sudo yum install -y ripgrep
