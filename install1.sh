@@ -37,9 +37,9 @@ sudo make install
 echo Emacs installed
 
 # Grab dotfiles
-# git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
-# sudo chown -R vagrant /home/vagrant/dotfiles
-# sh /home/vagrant/dotfiles/install.sh
+git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
+sudo chown -R vagrant /home/vagrant/dotfiles
+sh /home/vagrant/dotfiles/install.sh
 
 # Install Spacemacs
 echo Cloning spacemacs...
@@ -65,21 +65,20 @@ sudo make install
 echo Vim installed
 
 # Install NeoVim
+echo Installing Neovim
 # First we have to get DNF and COPR
-# cd /home/vagrant
+cd /home/vagrant
 # wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # sudo rpm -Uvh epel-release-latest-7*.rpm
 # sudo mv /home/vagrant/dnf-stack-el7.repo /etc/yum.repos.d/dnf-stack-el7.repo
 # sudo yum install -y epel-release
 # sudo yum install -y dnf
 # sudo yum install -y dnf-plugins-core
-# sudo apt-get install -y epel-release
-# sudo apt-get install -y dnf
-# sudo apt-get install -y dnf-plugins-core
-# Now we can get neovim
+# Now we can get neovim - for CentOS
 # sudo dnf copr enable dperson/neovim;
 # sudo dnf install neovim
 # sudo yum install -y neovim-0.2.0
+sudo apt-get install -y neovim
 
 # Get Python pip so we can install the nvim module
 cd /home/vagrant
@@ -88,12 +87,13 @@ cd /home/vagrant
 # pip install neovim
 
 # Install Spacevim
-# mkdir /home/vagrant/.config
-# sudo chown -R vagrant /home/vagrant/.config
-# curl -sLf https://spacevim.org/install.sh > /home/vagrant/install.sh
-# sudo chown vagrant install.sh
-# sudo chmod +x install.sh
-# runuser -l vagrant -c 'sh /home/vagrant/install.sh'
+mkdir /home/vagrant/.config
+sudo chown -R vagrant /home/vagrant/.config
+curl -sLf https://spacevim.org/install.sh > /home/vagrant/install_spacevim.sh
+sudo chown vagrant install_spacevim.sh
+sudo chmod +x install_spacevim.sh
+# runuser -l vagrant -c 'sh /home/vagrant/install_spacevim.sh'
+sh /home/vagrant/dotfiles/install_spacevim.sh
 
 # Install irssi
 # sudo yum install -y irssi
