@@ -23,3 +23,7 @@ sudo chown -R vagrant /home/vagrant/source
 echo Running ruby post-install
 ruby /home/vagrant/setup.rb
 echo Ruby post-install complete
+
+# Fish
+curl -L --create-dirs -o ~/.config/fish/functions/rvm.fish https://raw.github.com/lunks/fish-nuggets/master/functions/rvm.fish
+echo "rvm default" >> ~/.config/fish/config.fish

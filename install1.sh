@@ -7,34 +7,37 @@ mkdir -p /home/vagrant/.emacs.d
 # install base packages
 # sudo yum update
 # sudo yum groupinstall -y "Development Tools"
-# sudo yum install -y git nodejs tmux zsh curl tar gzip wget lua lua-devel luajit \
+# sudo yum install -y git nodejs tmux curl tar gzip wget lua lua-devel luajit \
 #                     luajit-devel ctags python python-devel python3 python3-devel \
 #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
 #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel ruby-devel
 sudo apt-get update
-sudo apt-get install -y build-essential git nodejs tmux zsh curl tar wget \
-                        python python3 perl gnupg2 gtk+3.0 libwebkit2gtk-3.0 webkitgtk+2 \
-                        webkitgtk+3.0 libwebkitgtk-dev libwebkitgtk-3.0-dev
+sudo apt-get install -y build-essential git nodejs tmux curl tar wget \
+                        python python3 perl gnupg2 emacs
+
+# Use if you're building emacs from source - don't forget to remove emacs from above
+# sudo apt-get install y- gtk+3.0 libwebkit2gtk-3.0 webkitgtk+2 \
+#                         webkitgtk+3.0 libwebkitgtk-dev libwebkitgtk-3.0-dev
 
 # build emacs - NOTE: use env var for version
-cd /home/vagrant
-echo Downloading emacs...
-wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
-echo Emacs downloaded
-tar -xf emacs-25.2.tar.gz
-cd /home/vagrant/emacs-25.2/
-echo Installing emacs dependencies...
-sudo apt-get build-dep -y emacs25
-echo Emacs deps installed
-echo Configuring emacs...
-sudo ./configure --with-cairo --with-xwidgets --with-x-toolkit=gtk3
-echo Emacs configured
-echo Making emacs...
-sudo make
-echo Emacs made
-echo Installing emacs...
-sudo make install
-echo Emacs installed
+# cd /home/vagrant
+# echo Downloading emacs...
+# wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-25.2.tar.gz
+# echo Emacs downloaded
+# tar -xf emacs-25.2.tar.gz
+# cd /home/vagrant/emacs-25.2/
+# echo Installing emacs dependencies...
+# sudo apt-get build-dep -y emacs25
+# echo Emacs deps installed
+# echo Configuring emacs...
+# sudo ./configure --with-cairo --with-xwidgets --with-x-toolkit=gtk3
+# echo Emacs configured
+# echo Making emacs...
+# sudo make
+# echo Emacs made
+# echo Installing emacs...
+# sudo make install
+# echo Emacs installed
 
 # Grab dotfiles
 git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
@@ -50,19 +53,19 @@ mkdir /home/vagrant/.emacs.d/.cache
 sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
 
 # Install Vim8
-echo Cloning vim 8...
-git clone https://github.com/vim/vim.git /home/vagrant/vim
-cd /home/vagrant/vim/
-echo Vim cloned
-echo Configuring vim...
-sudo ./configure
-echo VIM configured
-echo Making vim
-sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
-echo Vim made
-echo Installing vim...
-sudo make install
-echo Vim installed
+# echo Cloning vim 8...
+# git clone https://github.com/vim/vim.git /home/vagrant/vim
+# cd /home/vagrant/vim/
+# echo Vim cloned
+# echo Configuring vim...
+# sudo ./configure
+# echo VIM configured
+# echo Making vim
+# sudo make VIMRUNTIMEDIR=/usr/share/vim/vim80
+# echo Vim made
+# echo Installing vim...
+# sudo make install
+# echo Vim installed
 
 # Install NeoVim
 echo Installing Neovim
@@ -100,3 +103,8 @@ sh /home/vagrant/dotfiles/install_spacevim.sh
 echo Installing irssi...
 sudo apt-get install -y irssi
 echo Irssi installed
+
+# Install Fish
+echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/2/Debian_9.0/ /' > /etc/apt/sources.list.d/fish.list 
+sudo apt-get update
+sudo apt-get install -y fish
