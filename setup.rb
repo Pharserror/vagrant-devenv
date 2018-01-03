@@ -5,12 +5,42 @@ SVN_CMDS = {
   mercurial: 'hg'
 }
 
+def build_package(package)
+  case package[:cmnd]
+  when 'gem'
+    install_gem(package)
+  when 'npm'
+    install_npm(package)
+  else
+    %x( echo "INVALID PACKAGE CMND" )
+end
+
+def clone(item)
+  %x( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['user']}/#{item['name']}.#{item['type']} #{item['destination']} )
+end
+
+def install_gem(package)
+  %x ( rgc #{package[:gemset]} && rgu #{package[:gemset]} )
+  %x ( cd #{package[:destination]} && gem build #{package[:name]}.gemspec )
+  %x ( gem install #{package[:name]}-#{package[:version]}.gem )
+end
+
+def install_npm(package)
+end
+
 YAML.load_file('config.yaml').each do |category, items|
   case category
   when  'repos'
     items.each do |item|
       %x( mkdir #{item['destination']} )
-      %x( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['user']}/#{item['name']}.#{item['type']} #{item['destination']} )
+      clone(item)
+      if item.keys.include?(:postinstall_packages)
+        item[:postinstall_packages].each do |package|
+	  clone(package)
+          build_package(package)
+        end
+      end
+
       if item.keys.include?(:postinstall)
         %x( sh #{item[:postinstall]} #{item.keys.include?(:postinstall_args) ? item[:postinstall_args].join(' ') : nil} )
       end
