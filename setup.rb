@@ -20,9 +20,9 @@ def clone(item)
 end
 
 def install_gem(package)
-  %x ( rgc #{package[:gemset]} && rgu #{package[:gemset]} )
-  %x ( cd #{package[:destination]} && gem build #{package[:name]}.gemspec )
-  %x ( gem install #{package[:name]}-#{package[:version]}.gem )
+  %x( rgc #{package[:gemset]} && rgu #{package[:gemset]} )
+  %x( cd #{package[:destination]} && gem build #{package[:name]}.gemspec )
+  %x( gem install #{package[:name]}-#{package[:version]}.gem )
 end
 
 def install_npm(package)
