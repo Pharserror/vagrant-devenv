@@ -13,6 +13,7 @@ def build_package(package)
     install_npm(package)
   else
     %x( echo "INVALID PACKAGE CMND" )
+  end
 end
 
 def clone(item)
@@ -30,7 +31,7 @@ end
 
 YAML.load_file('config.yaml').each do |category, items|
   case category
-  when  'repos'
+  when 'repos'
     items.each do |item|
       %x( mkdir #{item['destination']} )
       clone(item)
