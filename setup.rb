@@ -6,7 +6,7 @@ SVN_CMDS = {
 }
 
 def build_package(package)
-  case package[:cmnd]
+  case package['cmnd']
   when 'gem'
     install_gem(package)
   when 'npm'
@@ -21,29 +21,29 @@ def clone(item)
 end
 
 def install_gem(package)
-  %x( rgc #{package[:gemset]} && rgu #{package[:gemset]} )
-  %x( cd #{package[:destination]} && gem build #{package[:name]}.gemspec )
-  %x( gem install #{package[:name]}-#{package[:version]}.gem )
+  %x( rgc #{package['gemset']} && rgu #{package['gemset']} )
+  %x( cd #{package['destination']} && gem build #{package['name']}.gemspec )
+  %x( gem install #{package['name']}-#{package['version']}.gem )
 end
 
 def install_npm(package)
 end
 
-YAML.load_file('config.yaml').each do |category, items|
+YAML.load_file('./config.yaml').each do |category, items|
   case category
   when 'repos'
     items.each do |item|
       %x( mkdir #{item['destination']} )
       clone(item)
-      if item.keys.include?(:postinstall_packages)
-        item[:postinstall_packages].each do |package|
+      if item.keys.include?('postinstall_packages')
+        item['postinstall_packages'].each do |package|
 	  clone(package)
           build_package(package)
         end
       end
 
-      if item.keys.include?(:postinstall)
-        %x( sh #{item[:postinstall]} #{item.keys.include?(:postinstall_args) ? item[:postinstall_args].join(' ') : nil} )
+      if item.keys.include?('postinstall')
+        %x( sh #{item['postinstall']} #{item.keys.include?('postinstall_args') ? item['postinstall_args'].join(' ') : nil} )
       end
     end
   else
