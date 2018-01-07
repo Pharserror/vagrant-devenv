@@ -7,7 +7,7 @@ SVN_CMDS = {
 
 def build_package(package)
   %x( echo Installing package #{package['name']} )
-  case package[:cmnd]
+  case package['cmnd']
   when 'gem'
     install_gem(package)
   when 'npm'
@@ -23,23 +23,23 @@ end
 
 def install_gem(package)
   %x( echo Installing gem #{package['name']} )
-  %x( rgc #{package[:gemset]} && rgu #{package[:gemset]} )
-  %x( cd #{package[:destination]} && gem build #{package[:name]}.gemspec )
-  %x( gem install #{package[:name]}-#{package[:version]}.gem )
+  %x( rgc #{package['gemset']} && rgu #{package['gemset']} )
+  %x( cd #{package['destination']} && gem build #{package['name']}.gemspec )
+  %x( gem install #{package['name']}-#{package['version']}.gem )
 end
 
 def install_npm(package)
 end
 
-YAML.load_file('config.yaml').each do |category, items|
+YAML.load_file('./config.yaml').each do |category, items|
   case category
   when 'repos'
     items.each do |item|
       %x( mkdir #{item['destination']} )
       clone(item)
-      if item.keys.include?(:postinstall_packages)
+      if item.keys.include?('postinstall_packages')
         %x( echo "installing packages..." )
-        item[:postinstall_packages].each do |package|
+        item['postinstall_packages'].each do |package|
 	  clone(package)
           build_package(package)
         end
@@ -47,9 +47,9 @@ YAML.load_file('config.yaml').each do |category, items|
         %x( echo "no postinstall packages detected, moving on..." )
       end
 
-      if item.keys.include?(:postinstall)
+      if item.keys.include?('postinstall')
         %x( echo Running post install for #{item['name']} )
-        %x( sh #{item[:postinstall]} #{item.keys.include?(:postinstall_args) ? item[:postinstall_args].join(' ') : nil} )
+        %x( sh #{item['postinstall']} #{item.keys.include?('postinstall_args') ? item['postinstall_args'].join(' ') : nil} )
       end
     end
   else
