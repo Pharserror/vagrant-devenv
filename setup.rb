@@ -23,7 +23,7 @@ end
 
 def install_gem(package)
   %x( echo Installing gem #{package['name']} )
-  %x( rgc #{package['gemset']} && rgu #{package['gemset']} )
+  %x( rvm gemset create #{package['gemset']} && rvm gemset use #{package['gemset']} )
   %x( cd #{package['destination']} && gem build #{package['name']}.gemspec )
   %x( gem install #{package['name']}-#{package['version']}.gem )
 end

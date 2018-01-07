@@ -48,6 +48,10 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
   config.vm.provision "file", source: "./config.yaml", destination: "/home/vagrant/config.yaml"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
+  # Some typical postinstall files you might have for a Rails/Node project
+  # Comment out or remove these lines if you don't have postinstall scripts to run
+  config.vm.provision "file", source: "./postinstall_rails_with_postgresql.sh", destination: "/home/vagrant/postinstall_rails_with_postgresql.sh"
+  config.vm.provision "file", source: "./postinstall_typical_npm.sh", destination: "/home/vagrant/postinstall_typical_npm.sh"
   config.vm.provision :shell, path: "./install1.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install-rvm.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install-ruby.sh", args: "2.4.1",  privileged: false
