@@ -1,5 +1,5 @@
-rgc $1
-rgu $1
+rvm gemset create $1
+rvm gemset use $1
 gem install bundler
 bundle install
 sudo su - postgres
