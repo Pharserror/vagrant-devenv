@@ -12,7 +12,7 @@ mkdir -p /home/vagrant/.emacs.d
 #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
 #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel ruby-devel
 sudo apt-get update
-sudo apt-get install -y build-essential git nodejs tmux curl tar wget \
+sudo apt-get install -y build-essential git tmux curl tar wget \
                         python python3 perl gnupg2 emacs
 
 # Use if you're building emacs from source - don't forget to remove emacs from above
