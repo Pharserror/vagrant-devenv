@@ -3,7 +3,7 @@
 # Install Ripgrep
 # sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
 # sudo yum install -y ripgrep
-which rg &> /dev/null
+ls /home/vagrant/.cargo/bin/rg &> /dev/null
 if [ $? -eq 0 ]; then
   echo Downloading Rust installer...
   curl https://sh.rustup.rs -sSf > /home/vagrant/installrust.sh
