@@ -25,7 +25,7 @@ def install_gem(package)
   %x( echo Installing gem #{package['name']} )
   %x( rvm gemset create #{package['gemset']} && rvm gemset use #{package['gemset']} )
   %x( cd #{package['destination']} && gem build #{package['name']}.gemspec )
-  %x( gem install #{package['name']}-#{package['version']}.gem )
+  %x( gem install #{package['destination']}/#{package['name']}-#{package['version']}.gem )
 end
 
 def install_npm(package)
