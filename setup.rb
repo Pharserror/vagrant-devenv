@@ -40,7 +40,7 @@ YAML.load_file('./config.yaml').each do |category, items|
       if item.keys.include?('postinstall_packages')
         %x( echo "installing packages..." )
         item['postinstall_packages'].each do |package|
-	  clone(package)
+          clone(package)
           build_package(package)
         end
       else
