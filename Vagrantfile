@@ -14,19 +14,19 @@ Vagrant.configure("2") do |config|
   # config.vm.box_check_update = false
 
   # Public ports
-  config.vm.network "forwarded_port", guest: 19000, host: 19000
+  # config.vm.network "forwarded_port", guest: 9000, host: 9000, host_ip: "0.0.0.0"
 
   # Private ports
   # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
 
   # Setup any private networks
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  # config.vm.network "private_network", ip: "55.55.55.55"
 
   # Setup any public networks
   config.vm.network "public_network"
 
   # Sync additional folders (host dir, box dir [, options])
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  # config.vm.synced_folder "./data", "/home/vagrant"
 
   # Configure any providers
   #
