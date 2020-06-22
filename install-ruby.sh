@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
+# Non-privileged
 source $HOME/.rvm/scripts/rvm || source /etc/profile.d/rvm.sh
+# Privileged Install
+# source /usr/local/rvm/scripts/rvm || source /etc/profile.d/rvm.sh
 
 rvm use --default --install $1
 

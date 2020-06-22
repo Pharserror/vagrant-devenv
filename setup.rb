@@ -6,53 +6,74 @@ SVN_CMDS = {
 }
 
 def build_package(package)
-  %x( echo Installing package #{package['name']} )
+  output_to_file = %Q( echo Installing package #{package['name']}; )
+
   case package['cmnd']
   when 'gem'
-    install_gem(package)
+    output_to_file += install_gem(package)
   when 'npm'
-    install_npm(package)
+    output_to_file += install_npm(package)
   else
-    %x( echo "INVALID PACKAGE CMND" )
+    output_to_file += %Q( echo "INVALID PACKAGE CMND #{package['cmnd']}"; )
   end
+
+  output_to_file
 end
 
 def clone(item)
-  %x( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['user']}/#{item['name']}.#{item['type']} #{item['destination']} )
+  %Q( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['name']}.#{item['type']} #{item['destination']}; )
 end
 
 def install_gem(package)
-  %x( echo Installing gem #{package['name']} )
-  %x( rvm gemset create #{package['gemset']} && rvm gemset use #{package['gemset']} )
-  %x( cd #{package['destination']} && gem build #{package['name']}.gemspec )
-  %x( gem install #{package['destination']}/#{package['name']}-#{package['version']}.gem )
+  %Q(
+    echo Installing gem #{package['name']};
+    rvm gemset create #{package['gemset']};
+    rvm gemset use #{package['gemset']};
+    cd #{package['destination']};
+    gem build #{package['name']}.gemspec;
+    gem install #{package['destination']}/#{package['name']}-#{package['version']}.gem;
+  )
 end
 
 def install_npm(package)
 end
 
-YAML.load_file('./config.yaml').each do |category, items|
-  case category
-  when 'repos'
-    items.each do |item|
-      %x( mkdir #{item['destination']} )
-      clone(item)
-      if item.keys.include?('postinstall_packages')
-        %x( echo "installing packages..." )
-        item['postinstall_packages'].each do |package|
-          clone(package)
-          build_package(package)
-        end
-      else
-        %x( echo "no postinstall packages detected, moving on..." )
-      end
+def generate_shell_script_from_config(config_file_path)
+  output = ""
 
-      if item.keys.include?('postinstall')
-        %x( echo Running post install for #{item['name']} )
-        %x( sh #{item['postinstall']} #{item.keys.include?('postinstall_args') ? item['postinstall_args'].join(' ') : nil} )
+  YAML.load_file(config_file_path).each do |category, items|
+    case category
+    when 'repos'
+      items.each do |item|
+        output += %Q( mkdir -p #{item['destination']}; )
+        output += clone(item)
+
+        if item.keys.include?('postinstall_packages')
+          output += %q( echo "installing packages..."; )
+
+          item['postinstall_packages'].each do |package|
+            output += clone(package)
+            output += build_package(package)
+          end
+        else
+          output += %q( echo "no postinstall packages detected, moving on..."; )
+        end
+
+        if item.keys.include?('postinstall')
+          output += %Q( echo Running post install for #{item['name']}; )
+          output += %Q( bash #{item['postinstall']} #{item.keys.include?('postinstall_args') ? item['postinstall_args'].join(' ') : nil}; )
+        end
       end
+    else
+      puts "don't know how to handle #{category}"
     end
-  else
-    puts "don't know how to handle #{category}"
+
+    output
+  end
+
+  file = File.open('configure.sh', 'w') do |file_handle|
+    file_handle.write(output)
   end
 end
+
+generate_shell_script_from_config('./config.yaml')

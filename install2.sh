@@ -21,11 +21,13 @@ fi
 cd /home/vagrant
 
 # Setup stuff from the config
-mkdir /home/vagrant/source
+mkdir -p /home/vagrant/source
 sudo chown -R vagrant /home/vagrant/source
-echo Running ruby post-install
+echo "Running ruby post-install"
 ruby /home/vagrant/setup.rb
-echo Ruby post-install complete
+chmod +x ./configure.sh
+./configure.sh
+echo "Ruby post-install complete"
 
 # Fish
 curl -L --create-dirs -o ~/.config/fish/functions/rvm.fish https://raw.github.com/lunks/fish-nuggets/master/functions/rvm.fish

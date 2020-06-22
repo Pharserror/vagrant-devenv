@@ -68,9 +68,9 @@ sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
 # echo Vim installed
 
 # Install NeoVim
-echo Installing Neovim
+# echo Installing Neovim
 # First we have to get DNF and COPR
-cd /home/vagrant
+# cd /home/vagrant
 # wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # sudo rpm -Uvh epel-release-latest-7*.rpm
 # sudo mv /home/vagrant/dnf-stack-el7.repo /etc/yum.repos.d/dnf-stack-el7.repo
@@ -81,7 +81,7 @@ cd /home/vagrant
 # sudo dnf copr enable dperson/neovim;
 # sudo dnf install neovim
 # sudo yum install -y neovim-0.2.0
-sudo apt-get install -y neovim
+# sudo apt-get install -y neovim
 
 # Get Python pip so we can install the nvim module
 cd /home/vagrant
@@ -90,21 +90,22 @@ cd /home/vagrant
 # pip install neovim
 
 # Install Spacevim
-mkdir /home/vagrant/.config
-sudo chown -R vagrant /home/vagrant/.config
-curl -sLf https://spacevim.org/install.sh > /home/vagrant/install_spacevim.sh
-sudo chown vagrant install_spacevim.sh
-sudo chmod +x install_spacevim.sh
+# mkdir /home/vagrant/.config
+# sudo chown -R vagrant /home/vagrant/.config
+# curl -sLf https://spacevim.org/install.sh > /home/vagrant/install_spacevim.sh
+# sudo chown vagrant install_spacevim.sh
+# sudo chmod +x install_spacevim.sh
 # runuser -l vagrant -c 'sh /home/vagrant/install_spacevim.sh'
-sh /home/vagrant/dotfiles/install_spacevim.sh
+# sh /home/vagrant/dotfiles/install_spacevim.sh
 
 # Install irssi
 # sudo yum install -y irssi
-echo Installing irssi...
-sudo apt-get install -y irssi
-echo Irssi installed
+# echo Installing irssi...
+# sudo apt-get install -y irssi
+# echo Irssi installed
 
 # Install Fish
-echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/2/Debian_9.0/ /' > /etc/apt/sources.list.d/fish.list 
+echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+sudo wget -nv https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key -O "/etc/apt/trusted.gpg.d/shells:fish:release:3.asc"
 sudo apt-get update
 sudo apt-get install -y fish
