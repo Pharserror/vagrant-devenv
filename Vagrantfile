@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
   # config.vm.box_check_update = false
 
   # Public ports
-  # config.vm.network "forwarded_port", guest: 9000, host: 9000, host_ip: "0.0.0.0"
+  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "0.0.0.0"
 
   # Private ports
   # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
