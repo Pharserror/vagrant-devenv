@@ -9,12 +9,12 @@ DEFUALT_BOX = "generic/debian10"
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  YAML.load_file('./config.yaml').each do |category, setting|
-    case category
-    when 'distro'
-      config.vm.box = setting
-    end
-  end
+  # YAML.load_file('./config.yaml').each do |category, setting|
+  #   case category
+  #   when 'distro'
+  #     config.vm.box = setting
+  #   end
+  # end
   # Specify default box to use
   config.vm.box ||= DEFAULT_BOX
 
@@ -34,7 +34,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "public_network"
 
   # Sync additional folders (host dir, box dir [, options])
-  # config.vm.synced_folder "./data", "/home/vagrant"
+  # Disable this if you are using the config.yaml setup
+  config.vm.synced_folder "~/source", "/home/vagrant/source"
 
   # Configure any providers
   #
