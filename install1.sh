@@ -3,10 +3,9 @@
 # setup directories
 mkdir -p /home/vagrant/dotfiles
 mkdir -p /home/vagrant/downloads
-mkdir -p /home/vagrant/.emacs.d
 # If you are going to rsync your code don't forget to remove the appropriate lines
 # in the Vagrantfile
-mkdir -p /home/vagrant/source
+# mkdir -p /home/vagrant/source
 
 # CentOS/Fedora/RedHat
 # install base packages
@@ -20,7 +19,7 @@ mkdir -p /home/vagrant/source
 # Debian/Ubuntu
 sudo apt-get update
 sudo apt-get install -y build-essential git tmux curl tar wget \
-                        python python3 perl gnupg2
+                        python python3 perl gnupg2 fzf
 
 # +--------------------------------+
 # |== BUILDING EMACS FROM SOURCE ==|
@@ -143,4 +142,4 @@ echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Deb
 sudo wget -nv https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key -O "/etc/apt/trusted.gpg.d/shells:fish:release:3.asc"
 sudo apt-get update
 sudo apt-get install -y fish
-chsh -s /usr/bin/fish
+# sudo chsh -s /usr/bin/fish
