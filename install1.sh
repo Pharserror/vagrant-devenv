@@ -30,31 +30,40 @@ sudo apt-get install -y build-essential git tmux curl tar wget \
 #                         webkitgtk+3.0 libwebkitgtk-dev libwebkitgtk-3.0-dev
 #
 # Emacs Packages for Debian 10 - Successful build with 26.3 on Aug. 4TH 2020
-sudo apt install -y autoconf automake libtool texinfo build-essential xorg-dev \
-                    libgtk2.0-dev libjpeg-dev libncurses5-dev libdbus-1-dev libgif-dev \
-                    libtiff-dev libm17n-dev libpng-dev librsvg2-dev libotf-dev \
-                    libgnutls28-dev libxml2-dev libwebkit2gtk-4.0-dev apt-transport-https \
-                    ca-certificates curl gnupg-agent software-properties-common
+# sudo apt install -y autoconf automake libtool texinfo build-essential xorg-dev \
+#                     libgtk2.0-dev libjpeg-dev libncurses5-dev libdbus-1-dev libgif-dev \
+#                     libtiff-dev libm17n-dev libpng-dev librsvg2-dev libotf-dev \
+#                     libgnutls28-dev libxml2-dev libwebkit2gtk-4.0-dev apt-transport-https \
+#                     ca-certificates curl gnupg-agent software-properties-common
 
 # build emacs - TODO: use env var for version
-cd /home/vagrant/downloads
-echo "Downloading emacs..."
-wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-26.3.tar.gz
-echo "Emacs downloaded"
-tar -xf emacs-26.3.tar.gz
-cd /home/vagrant/downloads/emacs-26.3/
-echo "Installing emacs dependencies..."
-sudo apt-get build-dep -y emacs26
-echo "Emacs deps installed"
-echo "Configuring emacs..."
-sudo ./configure --with-x-toolkit=gtk3 --with-mailutils --with-xwidgets
-echo "Emacs configured"
-echo "Making emacs..."
-sudo make bootstrap
-echo "Emacs made"
-echo "Installing emacs..."
-sudo make install
-echo "Emacs installed"
+# cd /home/vagrant/downloads
+# echo "Downloading emacs..."
+# wget ftp://ftp.gnu.org/pub/gnu/emacs/emacs-26.3.tar.gz
+# echo "Emacs downloaded"
+# tar -xf emacs-26.3.tar.gz
+# cd /home/vagrant/downloads/emacs-26.3/
+# echo "Installing emacs dependencies..."
+# sudo apt-get build-dep -y emacs26
+# echo "Emacs deps installed"
+# echo "Configuring emacs..."
+# sudo ./configure --with-x-toolkit=gtk3 --with-mailutils --with-xwidgets
+# echo "Emacs configured"
+# echo "Making emacs..."
+# sudo make bootstrap
+# echo "Emacs made"
+# echo "Installing emacs..."
+# sudo make install
+# echo "Emacs installed"
+
+# EMACS DOCKER INSTALL
+wget https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/containerd.io_1.2.13-2_amd64.deb
+wget https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/docker-ce-cli_19.03.12~3-0~debian-buster_amd64.deb
+wget https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/docker-ce_19.03.12~3-0~debian-buster_amd64.deb
+sudo dpkg -i https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/containerd.io_1.2.13-2_amd64.deb
+sudo dpkg -i https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/docker-ce-cli_19.03.12~3-0~debian-buster_amd64.deb
+sudo dpkg -i https://download.docker.com/linux/debian/dists/buster/pool/stable/amd64/docker-ce_19.03.12~3-0~debian-buster_amd64.deb
+docker pull pharserror/emacs-27-native-comp:initial
 
 # Grab dotfiles
 git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
@@ -62,12 +71,12 @@ sudo chown -R vagrant /home/vagrant/dotfiles
 sh /home/vagrant/dotfiles/install.sh
 
 # Install Spacemacs
-echo Cloning spacemacs...
-git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
-echo Spacemacs cloned
-sudo chown -R vagrant /home/vagrant/.emacs.d
-mkdir /home/vagrant/.emacs.d/.cache
-sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
+# echo Cloning spacemacs...
+# git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
+# echo Spacemacs cloned
+# sudo chown -R vagrant /home/vagrant/.emacs.d
+# mkdir /home/vagrant/.emacs.d/.cache
+# sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
 
 # Install fzf
 git clone https://github.com/ashyisme/fzf-spacemacs-layer.git ~/.emacs.d/private/fzf

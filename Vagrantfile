@@ -21,9 +21,10 @@ Vagrant.configure("2") do |config|
   # config.vm.box = "generic/debian10"
 
   # Config provider memory and CPU
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 4096
-    v.cpus = 2
+  config.vm.provider "docker" do |d|
+    # d.cpus = 2
+    d.image = "debian:buster"
+    # d.memory = 4096
   end
 
   # Configure box updates
