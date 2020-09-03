@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
 
   # Sync additional folders (host dir, box dir [, options])
   # Disable this if you are using the config.yaml setup
-  # config.vm.synced_folder "./source", "/home/vagrant/source"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # Configure any providers
   #
