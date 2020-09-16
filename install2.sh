@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-# Install Ripgrep via Rust
+# Install Ripgrep
+#
+# CentOS/Fedora/RedHat
 # sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlgeorge/ripgrep/repo/epel-7/carlgeorge-ripgrep-epel-7.repo
 # sudo yum install -y ripgrep
+#
+# With Rust
+#
 # ls /home/vagrant/.cargo/bin/rg &> /dev/null
 # if [ $? -eq 0 ]; then
 #   echo Downloading Rust installer...
@@ -18,17 +23,20 @@
 #   cargo install ripgrep
 #   echo Ripgrep installed
 # fi
+#
+# Debian/Ubuntu
+#
+sudo apt install -y ripgrep
+
 cd /home/vagrant
 
 # Setup stuff from the config
-mkdir -p /home/vagrant/source
-sudo chown -R vagrant /home/vagrant/source
+# +------------------------------------------------------------------------+
+# |== DISABLE THIS SETUP IF YOU ARE USING RSYNC TO SYNC YOUR SOURCE CODE ==|
+# +------------------------------------------------------------------------+
 echo "Running ruby post-install"
 ruby /home/vagrant/setup.rb
 chmod +x ./configure.sh
 ./configure.sh
+sudo chown -R vagrant /home/vagrant/source
 echo "Ruby post-install complete"
-
-# Fish
-curl -L --create-dirs -o ~/.config/fish/functions/rvm.fish https://raw.github.com/lunks/fish-nuggets/master/functions/rvm.fish
-echo "rvm default" >> ~/.config/fish/config.fish

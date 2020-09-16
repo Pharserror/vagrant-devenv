@@ -13,6 +13,15 @@ Vagrant.configure("2") do |config|
   end
   # Specify default box to use
   config.vm.box ||= DEFAULT_BOX
+  # Windows doesn't like ||= or something: use the below line on Win10
+  # config.vm.box = "generic/debian10"
+
+  # Config provider memory and CPU
+  config.vm.provider "docker" do |d|
+    # d.cpus = 2
+    d.image = "debian:buster"
+    # d.memory = 4096
+  end
 
   # Configure box updates
   # config.vm.box_check_update = false
@@ -30,7 +39,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "public_network"
 
   # Sync additional folders (host dir, box dir [, options])
-  # config.vm.synced_folder "./data", "/home/vagrant"
+  # Disable this if you are using the config.yaml setup
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # Configure any providers
   #
@@ -43,6 +53,7 @@ Vagrant.configure("2") do |config|
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
   # config.vm.provision "file", source: "./dnf-stack-el7.repo", destination: "/home/vagrant/dnf-stack-el7.repo"
+  # Comment out the below line if you are using RSync for getting repos onto the VM
   config.vm.provision "file", source: "./config.yaml", destination: "/home/vagrant/config.yaml"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
   # Some typical postinstall files you might have for a Rails/Node project
