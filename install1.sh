@@ -2,7 +2,7 @@
 
 # setup directories
 mkdir -p /home/vagrant/dotfiles
-mkdir -p /home/vagrant/.emacs.d
+# mkdir -p /home/vagrant/.emacs.d
 
 # install base packages
 # sudo yum update
@@ -12,8 +12,10 @@ mkdir -p /home/vagrant/.emacs.d
 #                     tcl-devel perl perl-devel perl-ExtUtils-ParseXS perl-ExtUtils-XSpp \
 #                     perl-ExtUtils-CBuilder perl-ExtUtils-Embed ncurses-devel ruby-devel
 sudo apt-get update
-sudo apt-get install -y build-essential git tmux curl tar wget \
-                        python python3 perl gnupg2 emacs
+sudo apt-get install -y git tmux curl tar wget perl gnupg2 ripgrep # \
+#                       #
+#                       # Use for when you want to build emacs
+#                       # build-essential emacs python python3
 
 # Use if you're building emacs from source - don't forget to remove emacs from above
 # sudo apt-get install y- gtk+3.0 libwebkit2gtk-3.0 webkitgtk+2 \
@@ -44,13 +46,15 @@ git clone https://github.com/Pharserror/dotfiles.git /home/vagrant/dotfiles
 sudo chown -R vagrant /home/vagrant/dotfiles
 sh /home/vagrant/dotfiles/install.sh
 
+# Use this if you don't want to use the emacs Docker container
+#
 # Install Spacemacs
-echo Cloning spacemacs...
-git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
-echo Spacemacs cloned
-sudo chown -R vagrant /home/vagrant/.emacs.d
-mkdir /home/vagrant/.emacs.d/.cache
-sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
+# echo Cloning spacemacs...
+# git clone https://github.com/syl20bnr/spacemacs /home/vagrant/.emacs.d
+# echo Spacemacs cloned
+# sudo chown -R vagrant /home/vagrant/.emacs.d
+# mkdir /home/vagrant/.emacs.d/.cache
+# sudo chown -R vagrant /home/vagrant/.emacs.d/.cache
 
 # Install Vim8
 # echo Cloning vim 8...

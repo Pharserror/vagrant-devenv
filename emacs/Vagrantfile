@@ -1,0 +1,14 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+require 'yaml'
+
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.provider "docker" do |d|
+    d.has_ssh = true
+    d.image = "pharserror/emacs-27-native-comp"
+    d.name = "emacs-container"
+    d.ports = ["22:22", "422:422", "80:80", "8080:8080"]
+    d.remains_running = true
+    d.vagrant_vagrantfile = "../Vagrantfile"
+  end

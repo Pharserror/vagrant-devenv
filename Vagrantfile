@@ -2,12 +2,8 @@
 # vi: set ft=ruby :
 require 'yaml'
 
-DEFUALT_BOX = "generic/debian10"
+DEFAULT_BOX = "generic/debian10"
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
   YAML.load_file('./config.yaml').each do |category, setting|
     case category
@@ -38,18 +34,11 @@ Vagrant.configure("2") do |config|
 
   # Configure any providers
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-
-  # Define any pushing strategy
-  # config.push.define "atlas" do |push|
-  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
+  config.vm.provider "hyperv" do |h|
+    # Customize the amount of memory on the VM:
+    h.cpus = 2
+    h.memory = 4096
+  end
 
   # Configure any provisioning
   # NOTE: Might be able to use some env vars to make this generic
