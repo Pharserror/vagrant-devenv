@@ -23,6 +23,10 @@ Vagrant.configure("2") do |config|
 
   # Public ports
   config.vm.network "forwarded_port", guest: 8080, host: 8080
+  # Teamspeak
+  config.vm.network "forwarded_port", guest: 9987, host: 9987, protocol: "udp"
+  config.vm.network "forwarded_port", guest: 10011, host: 10011
+  config.vm.network "forwarded_port", guest: 30033, host: 30033
 
   # Private ports
   # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
