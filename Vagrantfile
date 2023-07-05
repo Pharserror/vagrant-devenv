@@ -59,10 +59,12 @@ Vagrant.configure("2") do |config|
   # Some typical postinstall files you might have for a Rails/Node project
   # Comment out or remove these lines if you don't have postinstall scripts to run
   config.vm.provision "file", source: "./postinstall_rails_with_postgresql.sh", destination: "/home/vagrant/postinstall_rails_with_postgresql.sh"
-  config.vm.provision "file", source: "./postinstall_typical_npm.sh", destination: "/home/vagrant/postinstall_typical_npm.sh"
+  # config.vm.provision "file", source: "./postinstall_typical_npm.sh", destination: "/home/vagrant/postinstall_typical_npm.sh"
+  config.vm.provision "file", source: "./postinstall_vitejs.sh", destination: "/home/vagrant/postinstall_vitejs.sh"
   config.vm.provision :shell, path: "./install1.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install-rvm.sh",  args: "stable", privileged: false
-  config.vm.provision :shell, path: "./install-ruby.sh", args: "2.7.1",  privileged: false
-  config.vm.provision :shell, path: "./install-nvm.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./install-ruby.sh", args: "2.7.3",  privileged: false
+  # config.vm.provision :shell, path: "./install-nvm.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./install-vitejs.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install2.sh",  args: "stable", privileged: false
 end
