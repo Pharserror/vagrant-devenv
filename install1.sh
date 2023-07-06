@@ -24,4 +24,8 @@ asdf plugin-add python
 asdf install python 3.10.8
 asdf global python 3.10.8
 
+# Configure AWS
+echo "export AWS_PROFILE=local" >> /home/vagrant/.bashrc
+echo "export AWS_REGION=us-east-1" >> /home/vagrant/.bashrc
+
 cd /home/vagrant
