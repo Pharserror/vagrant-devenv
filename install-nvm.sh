@@ -3,7 +3,7 @@
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 #
 # -- Setup Bass --
-fisher add edc/bass
+fish -c "fisher add edc/bass"
 #
 # -- Install NVM --
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash;

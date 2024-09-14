@@ -21,7 +21,7 @@ def build_package(package)
 end
 
 def clone(item)
-  %Q( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['name']}.#{item['type']} #{item['destination']}; )
+  %Q( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
 end
 
 def install_gem(package)

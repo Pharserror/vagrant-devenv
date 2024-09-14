@@ -3,8 +3,8 @@
 # Setup Env Vars
 export LANG=en_US.utf8
 export PGDATA=/var/lib/postgresql/data
-export PG_MAJOR=11
-export PG_VERSION=11.9
+export PG_MAJOR=15
+export PG_VERSION=15.8
 export PG_SHA256=35618aa72e0372091f923c42389c6febd07513157b4fbb9408371706afbb6635
 
 # Add Entrypoint Directory

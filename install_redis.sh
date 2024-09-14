@@ -1,20 +1,19 @@
-export REDIS_VERSION=4.0.14
-export REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-4.0.14.tar.gz
-export REDIS_DOWNLOAD_SHA=1e1e18420a86cfb285933123b04a82e1ebda20bfb0a289472745a087587e93a7
+# export REDIS_VERSION=4.0.14
+# export REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-4.0.14.tar.gz
+# export REDIS_DOWNLOAD_SHA=1e1e18420a86cfb285933123b04a82e1ebda20bfb0a289472745a087587e93a7
 
+sudo apk add redis
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-addgroup -S redis && adduser -S -G redis redis
+sudo addgroup -S redis && adduser -S -G redis redis
 
-apk add --no-cache \
 # grab su-exec for easy step-down from root
-		'su-exec>=0.2' \
 # add tzdata for https://github.com/docker-library/redis/issues/138
-		tzdata
+sudo apk add --no-cache 'su-exec>=0.2' tzdata
 
 # for redis-sentinel see: http://redis.io/topics/sentinel
 set -ex; \
 	\
-	apk add --no-cache --virtual .build-deps \
+	sudo apk add --no-cache --virtual .build-deps \
 		coreutils \
 		gcc \
 		linux-headers \
@@ -49,7 +48,7 @@ set -ex; \
 			| sort -u \
 			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)"; \
-	apk add --virtual .redis-rundeps $runDeps; \
+	sudo apk add --virtual .redis-rundeps $runDeps; \
 	apk del .build-deps; \
 	\
 	redis-server --version
