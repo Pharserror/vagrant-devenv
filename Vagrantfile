@@ -43,6 +43,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "./dotfiles.sh", destination: "/home/vagrant/dotfiles.sh"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
   config.vm.provision "file", source: "./standup.sh", destination: "/home/vagrant/standup.sh"
+  config.vm.provision "file", source: "./self.github.com", destination: "/home/vagrant/.ssh/self.github.com"
+  config.vm.provision "file", source: "./self.gitlab.com", destination: "/home/vagrant/.ssh/self.gitlab.com"
   config.vm.provision :shell, path: "./install1.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install2.sh",  args: "stable", privileged: false
 end

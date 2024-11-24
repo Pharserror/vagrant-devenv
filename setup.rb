@@ -21,7 +21,11 @@ def build_package(package)
 end
 
 def clone(item)
-  %Q( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
+  if item['protocol'] == 'ssh'
+    %Q( #{SVN_CMDS[item['type'].to_sym]} clone git@#{item['domain']}:#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
+  else
+    %Q( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
+  end
 end
 
 def install_gem(package)
@@ -40,11 +44,18 @@ end
 
 def generate_shell_script_from_config(config_file_path)
   output = ""
+  ssh_agent_initialized = false
 
   YAML.load_file(config_file_path).each do |category, items|
     case category
     when 'repos'
       items.each do |item|
+        if item['protocol'] == 'ssh' && !ssh_agent_initialized
+          output += %Q( eval $(ssh-agent); ssh-add ~/.ssh/self.#{item['domain']}; )
+          output += %Q( cat ~/.ssh/self.#{item['domain']}.pub >> ~/.ssh/authorized_keys )
+          ssh_agent_initialized = true
+        end
+
         output += %Q( mkdir -p #{item['destination']}; )
         output += clone(item)
 
