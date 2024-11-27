@@ -13,7 +13,7 @@ sudo apk add --no-cache \
     git neovim tmux \
     openbox openrc openssh openssl tigervnc x11vnc xorg-server xvfb libxinerama \
     busybox-extras \
-    nodejs cargo unzip
+    nodejs npm cargo unzip
 
 # Alpine enable SSH
 sudo rc-update add sshd
