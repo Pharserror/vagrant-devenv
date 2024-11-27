@@ -11,7 +11,7 @@ sudo apk add --no-cache \
     readline-dev sqlite-dev tk-dev perl gpg gawk linux-headers util-linux \
     gcc gnupg gpg dirmngr procps musl-dev zlib libssl1.1 \
     git neovim tmux \
-    openbox openrc openssh openssl tigervnc x11vnc xorg-server xvfb \
+    openbox openrc openssh openssl tigervnc x11vnc xorg-server xvfb libxinerama \
     busybox-extras \
     nodejs cargo unzip
 

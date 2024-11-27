@@ -16,6 +16,9 @@ echo "Ruby post-install complete"
 # git clone git://git.suckless.org/dwm /home/vagrant/source/dwm
 cp /home/vagrant/source/dwm/config.def.h /home/vagrant/source/dwm/config.h
 sed -i -e 's/monospace:size=10/IosevkaTerm Nerd Font Mono:size=16/g' /home/vagrant/source/dwm/config.h
+# Comment out xinerama since we don't need it
+sed -i -e 's/^XINERAMALIBS/# XINERAMALIBS/g' /home/vagrant/source/dwm/config.mk
+sed -i -e 's/^XINERAMAFLAGS/# XINERAMAFLAGS/g' /home/vagrant/source/dwm/config.mk
 cd /home/vagrant/source/dwm && sudo make clean install
 
 # Install ST
