@@ -11,10 +11,9 @@ sudo apk add --no-cache \
     readline-dev sqlite-dev tk-dev perl gpg gawk linux-headers util-linux \
     gcc gnupg gpg dirmngr procps musl-dev zlib libssl1.1 \
     git neovim tmux \
-    dwm st \
     openbox openrc openssh openssl tigervnc x11vnc xorg-server xvfb \
     busybox-extras \
-    node cargo
+    nodejs cargo unzip
 
 # Alpine enable SSH
 sudo rc-update add sshd
@@ -25,7 +24,13 @@ sudo rc-update add docker default
 sudo service docker start
 
 # Add X Config to start DWM
-echo "exec dwm" > ~/.xinitrc && chmod +x ~/.xinitrc
+echo "exec dwm" > /home/vagrant/.xinitrc && chmod +x /home/vagrant/.xinitrc
 
 # Install SpaceVim
 curl -sLf https://spacevim.org/install.sh | bash
+
+# Install fonts
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/IosevkaTerm.zip
+unzip IosevkaTerm.zip -d IosevkaTerm >> /dev/null
+mkdir /home/vagrant/.fonts
+mv IosevkaTerm/IosevkaTermNerdFontMono-Regular.ttf /home/vagrant/.fonts

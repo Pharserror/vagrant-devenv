@@ -23,6 +23,8 @@ end
 def clone(item)
   if item['protocol'] == 'ssh'
     %Q( #{SVN_CMDS[item['type'].to_sym]} clone git@#{item['domain']}:#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
+  elsif item['protocol'] == 'git'
+    %Q( #{SVN_CMDS[item['type'].to_sym]} clone git://#{item['domain']}/#{item['name']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
   else
     %Q( #{SVN_CMDS[item['type'].to_sym]} clone https://#{item['user']}:#{item['pass']}@#{item['domain']}/#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
   end
@@ -51,8 +53,8 @@ def generate_shell_script_from_config(config_file_path)
     when 'repos'
       items.each do |item|
         if item['protocol'] == 'ssh' && !ssh_agent_initialized
-          output += %Q( eval $(ssh-agent); ssh-add ~/.ssh/self.#{item['domain']}; )
-          output += %Q( cat ~/.ssh/self.#{item['domain']}.pub >> ~/.ssh/authorized_keys )
+          output += %Q( eval $(ssh-agent); ssh-add /home/vagrant/.ssh/self.#{item['domain']}; )
+          output += %Q( cat /home/vagrant/.ssh/self.#{item['domain']}.pub >> /home/vagrant/.ssh/authorized_keys )
           ssh_agent_initialized = true
         end
 
