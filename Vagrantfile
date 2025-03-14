@@ -4,14 +4,17 @@ require 'yaml'
 
 Vagrant.configure("2") do |config|
   # Specify box to use
-  config.vm.box = "generic/alpine318"
+  config.vm.box = "generic/debian12"
 
   # Config provider memory and CPU
   # config.vm.provider "docker" do |d|
   #   d.image = "alpine:3.20"
   # end
-  # config.vm.provider "hyperv" do |d|
-  # end
+  config.vm.provider "hyperv" do |d|
+    d.cpus = 4
+    d.maxmemory = nil
+    d.memory = 4096
+  end
 
   # Configure box updates
   # config.vm.box_check_update = false
@@ -45,6 +48,11 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "./standup.sh", destination: "/home/vagrant/standup.sh"
   config.vm.provision "file", source: "./self.github.com", destination: "/home/vagrant/.ssh/self.github.com"
   config.vm.provision "file", source: "./self.gitlab.com", destination: "/home/vagrant/.ssh/self.gitlab.com"
-  config.vm.provision :shell, path: "./install1.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./pre_install.sh",  args: "stable", privileged: false
+  # config.vm.provision :shell, path: "./install.apk.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./install.debian.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./install.docker.debian.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./install.spacemacs.sh",  args: "stable", privileged: false
+  # config.vm.provision :shell, path: "./install.spacevim.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install2.sh",  args: "stable", privileged: false
 end

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Setup directories
-mkdir -p /home/vagrant/source
-
 # Install dependencies/required packages
 sudo apk update
 sudo apk add --no-cache \
@@ -22,15 +19,3 @@ sudo rc-update add sshd
 sudo addgroup ${USER} docker
 sudo rc-update add docker default
 sudo service docker start
-
-# Add X Config to start DWM
-echo "exec dwm" > /home/vagrant/.xinitrc && chmod +x /home/vagrant/.xinitrc
-
-# Install SpaceVim
-curl -sLf https://spacevim.org/install.sh | bash
-
-# Install fonts
-wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/IosevkaTerm.zip
-unzip IosevkaTerm.zip -d IosevkaTerm >> /dev/null
-mkdir /home/vagrant/.fonts
-mv IosevkaTerm/IosevkaTermNerdFontMono-Regular.ttf /home/vagrant/.fonts
