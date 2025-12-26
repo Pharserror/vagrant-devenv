@@ -14,8 +14,8 @@ Vagrant.configure("2") do |config|
   ##############################################################################
   # APT Boxes
   ##############################################################################
-  config.vm.box = "bento/debian-12"
-  config.vm.box_version = "202502.21.0"
+  # config.vm.box = "bento/debian-12"
+  # config.vm.box_version = "202502.21.0"
   ##############################################################################
   # RHEL Boxes
   ##############################################################################
@@ -26,9 +26,18 @@ Vagrant.configure("2") do |config|
   ##############################################################################
 
   # +==========================================================================+
+  # | --------------------------- Libvirt SETUP ------------------------------- |
+  # +==========================================================================+
+  config.vm.box = "generic/debian12"
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.driver = "kvm"
+    libvirt.memory = 1024
+    libvirt.cpus = 1
+  end
+  # +==========================================================================+
   # | --------------------------- VMWare SETUP ------------------------------- |
   # +==========================================================================+
-  config.vm.provider "vmware_desktop"
+  # config.vm.provider "vmware_desktop"
   # +==========================================================================+
   # | --------------------------- HYPER-V SETUP ------------------------------ |
   # +==========================================================================+
@@ -43,7 +52,7 @@ Vagrant.configure("2") do |config|
   # config.vm.box_check_update = false
 
   # Public ports
-  config.vm.network "forwarded_port", guest: 22,    host: 22    # SSH
+  config.vm.network "forwarded_port", guest: 22,    host: 2222  # SSH
   config.vm.network "forwarded_port", guest: 80,    host: 80    # HTTP
   config.vm.network "forwarded_port", guest: 443,   host: 443   # HTTPS
   config.vm.network "forwarded_port", guest: 10667, host: 10667 # DOOM/Zandronum
@@ -75,7 +84,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "./dotfiles.sh", destination: "/home/vagrant/dotfiles.sh"
   config.vm.provision "file", source: "./setup.rb", destination: "/home/vagrant/setup.rb"
   config.vm.provision "file", source: "./standup.sh", destination: "/home/vagrant/standup.sh"
-  config.vm.provision "file", source: "./self.digital", destination: "/home/vagrant/.ssh/self.digital"
+  # config.vm.provision "file", source: "./self.digital", destination: "/home/vagrant/.ssh/self.digital"
   config.vm.provision "file", source: "./self.github.com", destination: "/home/vagrant/.ssh/self.github.com"
   config.vm.provision "file", source: "./self.gitlab.com", destination: "/home/vagrant/.ssh/self.gitlab.com"
   config.vm.provision :shell, path: "./pre_install.sh",  args: "stable", privileged: false
