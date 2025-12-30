@@ -5,14 +5,16 @@ SVN_CMDS = {
   mercurial: 'hg'
 }
 
-def build_package(package)
+def build_package(package, args)
   output_to_file = %Q( echo Installing package #{package['name']}; )
 
   case package['cmnd']
   when 'gem'
-    output_to_file += install_gem(package)
+    output_to_file += install_gem(package, args)
   when 'npm'
-    output_to_file += install_npm(package)
+    output_to_file += install_npm(package, args)
+  when 'clone'
+    output_to_file += clone(package, args)
   else
     output_to_file += %Q( echo "INVALID PACKAGE CMND #{package['cmnd']}"; )
   end
@@ -20,7 +22,7 @@ def build_package(package)
   output_to_file
 end
 
-def clone(item)
+def clone(item, args)
   if item['protocol'] == 'ssh'
     %Q( #{SVN_CMDS[item['type'].to_sym]} clone git@#{item['domain']}:#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
   elsif item['protocol'] == 'git'
@@ -30,7 +32,7 @@ def clone(item)
   end
 end
 
-def install_gem(package)
+def install_gem(package, args)
   %Q(
     echo Installing gem #{package['name']};
     rvm gemset create #{package['gemset']};
@@ -41,7 +43,10 @@ def install_gem(package)
   )
 end
 
-def install_npm(package)
+def install_npm(package, args)
+  %Q(
+    sudo npm i#{args['flags']} #{package};
+  )
 end
 
 def generate_shell_script_from_config(config_file_path)
@@ -64,9 +69,8 @@ def generate_shell_script_from_config(config_file_path)
         if item.keys.include?('postinstall_packages')
           output += %q( echo "installing packages..."; )
 
-          item['postinstall_packages'].each do |package|
-            output += clone(package)
-            output += build_package(package)
+          item['postinstall_packages'].each do |package, args|
+            output += build_package(package, args)
           end
         else
           output += %q( echo "no postinstall packages detected, moving on..."; )

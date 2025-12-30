@@ -1,2 +1,7 @@
 \.vagrant
 config.yaml
+post_install.sh
+postinstall_yalc.sh
+self.digital
+self.github.com
+self.gitlab.com

@@ -26,6 +26,15 @@ Vagrant.configure("2") do |config|
   ##############################################################################
 
   # +==========================================================================+
+  # | --------------------------- LXC    SETUP ------------------------------- |
+  # +==========================================================================+
+  # config.vm.box = "generic/debian12"
+  # config.vm.provider "lxc" do |lxc|
+  #   lxc.driver = "kvm"
+  #   lxc.memory = 1024
+  #   lxc.cpus = 1
+  # end
+  # +==========================================================================+
   # | --------------------------- Libvirt SETUP ------------------------------- |
   # +==========================================================================+
   config.vm.box = "generic/debian12"
@@ -97,4 +106,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, path: "./install.spacemacs.sh",  args: "stable", privileged: false
   # config.vm.provision :shell, path: "./install.spacevim.sh",  args: "stable", privileged: false
   config.vm.provision :shell, path: "./install2.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./post_install.sh",  args: "stable", privileged: false
+  config.vm.provision :shell, path: "./postinstall_yalc.sh",  args: "stable", privileged: false
 end
