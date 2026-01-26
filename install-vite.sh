@@ -13,7 +13,7 @@ mkdir -p ~/.config/fish/completions; ln -s ~/.asdf/completions/asdf.fish ~/.conf
 # APT-based install
 # sudo apt-get install -y dirmngr gpg curl gawk
 
-source /home/vagrant/.bashrc
+source $HOME/.bashrc
 # -- Install Node --
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 # We have to set this envvar b/c Nodejs does not provide official binaries for Alpine

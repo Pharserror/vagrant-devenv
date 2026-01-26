@@ -14,7 +14,7 @@ def build_package(package, args)
   when 'npm'
     output_to_file += install_npm(package, args)
   when 'clone'
-    output_to_file += clone(package, args)
+    output_to_file += clone(package)
   else
     output_to_file += %Q( echo "INVALID PACKAGE CMND #{package['cmnd']}"; )
   end
@@ -22,7 +22,7 @@ def build_package(package, args)
   output_to_file
 end
 
-def clone(item, args)
+def clone(item)
   if item['protocol'] == 'ssh'
     %Q( #{SVN_CMDS[item['type'].to_sym]} clone git@#{item['domain']}:#{item['name']}.#{item['type']} #{item['branch'] ? "--branch #{item['branch']} " : ''}#{item['destination']}; )
   elsif item['protocol'] == 'git'
@@ -52,15 +52,21 @@ end
 def generate_shell_script_from_config(config_file_path)
   output = ""
   ssh_agent_initialized = false
+  identities_added = {}
 
   YAML.load_file(config_file_path).each do |category, items|
     case category
     when 'repos'
       items.each do |item|
         if item['protocol'] == 'ssh' && !ssh_agent_initialized
-          output += %Q( eval $(ssh-agent); ssh-add /home/vagrant/.ssh/self.#{item['domain']}; )
-          output += %Q( cat /home/vagrant/.ssh/self.#{item['domain']}.pub >> /home/vagrant/.ssh/authorized_keys )
+          output += %Q( eval $(ssh-agent); )
           ssh_agent_initialized = true
+        end
+
+        if item['protocol'] == 'ssh' && !identities_added[item['domain']]
+          output += %Q( ssh-add $HOME/.ssh/self.#{item['domain']}; )
+          output += %Q( cat $HOME/.ssh/self.#{item['domain']}.pub >> $HOME/.ssh/authorized_keys; )
+          identities_added[item['domain']] = true
         end
 
         output += %Q( mkdir -p #{item['destination']}; )

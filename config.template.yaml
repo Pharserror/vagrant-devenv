@@ -1,6 +1,6 @@
 ---
 repos:
-  - destination: '/home/vagrant/source/my_project'
+  - destination: '$HOME/source/my_project'
     domain: 'github.com/bitbucket.org'
     name: 'my_project'
     pass: 'test'
@@ -11,7 +11,7 @@ repos:
       - 'etc.'
     postinstall_packages:
       - cmnd: 'gem'
-        destination: '/home/vagrant/source/my_package'
+        destination: '$HOME/source/my_package'
         domain: 'bitbucket.org/github.com'
         gemset: 'my_project'
         name: 'my_package'

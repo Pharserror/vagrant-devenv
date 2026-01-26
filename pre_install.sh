@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 # Setup directories
-mkdir -p /home/vagrant/source
+mkdir -p $HOME/source;
+mkdir -p $HOME/downloads;
